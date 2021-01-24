@@ -13,12 +13,13 @@ datas <- function(x) {
 }
 
 epi_num = 2000
-alg_name = c("dqn", "dqn_softupdate", "ddqn")
+alg_name = c("dqn", "dqn_softupdate", "ddqn", "ddqn_dueling_net")
 path = c("[path]",
          "[path]",
+         "[path]",
          "[path]")
-poly_color = c(rgb(1,0.71,0.77), rgb(0.6,1,0.6), rgb(0.2,0.6,0.8))
-line_color = c(rgb(1,0.08,0.58), rgb(0,0.8,0), rgb(0,0.2,1))
+poly_color = c(rgb(1,0.71,0.77), rgb(0.6,1,0.6), rgb(0.2,1,1), rgb(1,0.8,0.4))
+line_color = c(rgb(1,0.08,0.58), rgb(0,0.8,0), rgb(0,0.2,1), rgb(1,0.6,0))
 
 val_means <- matrix(, nrow=epi_num, ncol=length(path))
 val_medians <- matrix(, nrow=epi_num, ncol=length(path))
