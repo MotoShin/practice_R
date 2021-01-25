@@ -12,7 +12,12 @@ datas <- function(x) {
   return(list(val_mean, val_median, val_sd, poly_x, poly_y))
 }
 
+moving_average <- function(x, n) {
+  filter(x, rep(1,n)) / n
+}
+
 epi_num = 2000
+moving_average_term = 100
 alg_name = c("dqn", "dqn_softupdate", "ddqn", "ddqn_dueling_net")
 path = c("[path]",
          "[path]",
@@ -41,13 +46,24 @@ for (i in 1:length(path)) {
   poly_ys[, i] <- unlist(result[[5]])
 }
 
-# plot
+# average plot
 png("all.png", width = 800, height = 600)
 plot(0, 0, type = "n", xlim=c(0, 2000), ylim=c(0, max(val_means) + 10), xlab = "episode", ylab = "reward")
 abline(h=seq(0, max(val_means) + 10, 50),lty="dotted",lwd=0.5)
 abline(v=seq(0, epi_num, 500),lty="dotted",lwd=0.5)
 for (i in 1:length(path)) {
   lines(val_means[, i], lwd=1, col = line_color[i])
+}
+legend("topleft", legend = alg_name, col = line_color, lty=1, bg = "white")
+dev.off()
+
+# moving average plot
+png("moving_average.png", width = 800, height = 600)
+plot(0, 0, type = "n", xlim = c(0, 2000), ylim=c(0, max(val_means) + 10), xlab = "episode", ylab = "reward")
+abline(h=seq(0, max(val_means) + 10, 50),lty="dotted",lwd=0.5)
+abline(v=seq(0, epi_num, 500),lty="dotted",lwd=0.5)
+for (i in 1:length(path)) {
+  lines(moving_average(val_means[, i], moving_average_term), lwd=2, col = line_color[i])
 }
 legend("topleft", legend = alg_name, col = line_color, lty=1, bg = "white")
 dev.off()
